@@ -53,7 +53,7 @@ class Main {
         System.out.println("Podaj wiek: ");
         int age = scan.nextInt();
    
-        if( age>1 && age>100)
+        if( age>=1 && age>=100)
             throw new WrongStudentAge();
 
         return age;
