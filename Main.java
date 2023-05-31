@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 class WrongStudentName extends Exception { }
 class WrongStudentAge extends Exception { }
+class WrongStudentBirthDate extends Exception { }
 
 class Main {
     public static Scanner scan = new Scanner(System.in);
@@ -25,7 +26,9 @@ class Main {
           catch(WrongStudentAge e) {
                 System.out.println("Błędny wiek studenta!");
           }
-        
+          catch(WrongStudentBirthDate e) {
+                System.out.println("Błędna Data Urodzenia");
+          }
     
         }
     }
@@ -52,20 +55,37 @@ class Main {
         
         System.out.println("Podaj wiek: ");
         int age = scan.nextInt();
-   
-        if( age>=1 && age>=100)
+             if( age<=1 || age>=100)
             throw new WrongStudentAge();
+     return age;
+   }
+  public static String ReadBirthDate() throws WrongStudentBirthDate {
+        scan.nextLine();
+        System.out.println("Podaj Date Urodzenia: ");
+      String birthdate = scan.nextLine();
+    //dd-mm-rrrr
 
-        return age;
+    String day=birthdate.substring(0, 2);
+    String mounth=birthdate.substring(3, 5);
+    String year=birthdate.substring(6, 10);
+
+    int dzien=Integer.parseInt(day);
+      int miesiac=Integer.parseInt(mounth);
+     int rok=Integer.parseInt(year);
+
+    
+if( birthdate.contains(" ") || birthdate.charAt(2) !='-' || birthdate.charAt(5) !='-' || dzien>31 || miesiac >12 || rok>5000)
+            throw new WrongStudentBirthDate();
+     
+    return birthdate;
    }
 
-    public static void exercise1() throws IOException, WrongStudentName, WrongStudentAge{
+    public static void exercise1() throws IOException, WrongStudentName, WrongStudentAge, WrongStudentBirthDate{
         var name = ReadName();
         var age= ReadAge();
-        scan.nextLine();
-        System.out.println("Podaj datę urodzenia DD-MM-YYY");
-        var date = scan.nextLine();
-        (new Service()).addStudent(new Student(name, age, date));
+        var birthdate= ReadBirthDate();
+        
+        (new Service()).addStudent(new Student(name, age, birthdate));
     }
 
     public static void exercise2() throws IOException {
